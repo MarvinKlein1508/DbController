@@ -47,8 +47,6 @@ namespace DbController.MySql
                     }
                 ));
             }
-
-            Console.WriteLine(SingletonTypeAttributeCache.InternalCache);
         }
 
         #endregion
