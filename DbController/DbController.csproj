@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>DbController</Title>
+		<Authors>Marvin Klein</Authors>
+		<Description>Base interface for creating a DbController.</Description>
+		<Copyright>2023</Copyright>
+		<PackageTags>dbcontroller, database, mysql, sqlserver</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.0.123" />
+	</ItemGroup>
+
+</Project>

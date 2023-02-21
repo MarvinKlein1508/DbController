@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Authors>Marvin Klein</Authors>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>DbController.MySql</Title>
+		<Description>An implementation of the DbController package for MySql</Description>
+		<Copyright>2023</Copyright>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>mysql, dbcontroller, database</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="MySql.Data" Version="8.0.32" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DbController\DbController.csproj" />
+	</ItemGroup>
+
+</Project>
