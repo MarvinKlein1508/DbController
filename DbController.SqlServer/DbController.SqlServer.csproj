@@ -12,6 +12,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>sqlserver, mssql, database, dbcontroller</PackageTags>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
