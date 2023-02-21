@@ -11,6 +11,8 @@
 		<Copyright>2023</Copyright>
 		<PackageTags>dbcontroller, database, mysql, sqlserver</PackageTags>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
+		<Version>1.0.1</Version>
+		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>

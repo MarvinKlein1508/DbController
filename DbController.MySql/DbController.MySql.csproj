@@ -10,6 +10,7 @@
 		<Description>An implementation of the DbController package for MySql</Description>
 		<Copyright>2023</Copyright>
 		<RepositoryType>git</RepositoryType>
+		<Version>1.0.1</Version>
 		<PackageTags>mysql, dbcontroller, database</PackageTags>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
