@@ -10,7 +10,15 @@
 		<Description>Base interface for creating a DbController.</Description>
 		<Copyright>2023</Copyright>
 		<PackageTags>dbcontroller, database, mysql, sqlserver</PackageTags>
+		<PackageReadmeFile>README.MD</PackageReadmeFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\README.MD">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.0.123" />
