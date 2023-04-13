@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Authors>Marvin Klein</Authors>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>DbController.TypeHandler</Title>
+		<Description>Provides type converter for dapper queries.</Description>
+		<Copyright>2023</Copyright>
+		<PackageReadmeFile>README.MD</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>dbcontroller, typehandler</PackageTags>
+		<PackageReleaseNotes>Added GuidTypeHandler</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\README.MD">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.0.123" />
+	</ItemGroup>
+
+</Project>
