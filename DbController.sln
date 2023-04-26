@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Pr
 		README.MD = README.MD
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbController.TypeHandler", "DbController.TypeHandler\DbController.TypeHandler.csproj", "{01E0A875-BE60-4E42-B2A3-4949CB2A03F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbController.TypeHandler", "DbController.TypeHandler\DbController.TypeHandler.csproj", "{01E0A875-BE60-4E42-B2A3-4949CB2A03F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
