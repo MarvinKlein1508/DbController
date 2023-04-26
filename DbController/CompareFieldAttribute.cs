@@ -1,7 +1,7 @@
 ﻿namespace DbController
 {
     /// <summary>
-    /// This property is being used for extended mapping. 
+    /// This property is being used to map columns to properties. 
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class CompareFieldAttribute : Attribute
