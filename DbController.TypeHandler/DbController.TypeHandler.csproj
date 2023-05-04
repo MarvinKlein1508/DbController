@@ -9,12 +9,13 @@
 		<Title>DbController.TypeHandler</Title>
 		<Description>Provides type converters for dapper queries.</Description>
 		<Copyright>2023</Copyright>
-		<Version>2.0.0</Version>
+		<Version>2.2.0</Version>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>dbcontroller, typehandler</PackageTags>
 		<PackageReleaseNotes>Added GuidTypeHandler</PackageReleaseNotes>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>

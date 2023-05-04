@@ -16,7 +16,7 @@ namespace DbController
         /// <param name="selectCommand"></param>
         /// <param name="param"></param>
         /// <returns>When no object is found, this method will return null.</returns>
-        Task<T?> GetFirstAsync<T>(string selectCommand, object? param = null);
+        Task<T?> GetFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
         /// <summary>
         /// Executes SQL and returns all found objects within a list.
         /// </summary>
@@ -24,14 +24,14 @@ namespace DbController
         /// <param name="selectCommand"></param>
         /// <param name="param"></param>
         /// <returns>When no objects are found, an empty list will be returned.</returns>
-        Task<List<T>> SelectDataAsync<T>(string selectCommand, object? param = null);
+        Task<List<T>> SelectDataAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
         /// <summary>
         /// Executes SQL and does not return anything.
         /// </summary>
         /// <param name="sqlCommand"></param>
         /// <param name="param"></param>
         /// <returns></returns>
-        Task QueryAsync(string sqlCommand, object? param = null);
+        Task QueryAsync(string sql, object? param = null, CancellationToken cancellationToken = default);
         /// <summary>
         /// Starts a new transaction for this IDbController instance.
         /// </summary>

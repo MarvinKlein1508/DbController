@@ -4,7 +4,7 @@
     /// Provides generalized CUD operations for an object Service.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IModelService<T>
+    public interface IModelService<TObject>
     {
         /// <summary>
         /// Saves the object as new entry in the database.
@@ -12,14 +12,14 @@
         /// <param name="input"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        Task CreateAsync(T input, IDbController dbController);
+        Task CreateAsync(TObject input, IDbController dbController, CancellationToken cancellationToken = default);
         /// <summary>
         /// Updates an existing entry of the object in the database.
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        Task UpdateAsync(T input, IDbController dbController);
+        Task UpdateAsync(TObject input, IDbController dbController, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes the object from the database.
@@ -27,7 +27,7 @@
         /// <param name="input"></param>
         /// <param name="dbController"></param>
         /// <returns></returns>
-        Task DeleteAsync(T input, IDbController dbController);
+        Task DeleteAsync(TObject input, IDbController dbController, CancellationToken cancellationToken = default);
     }
     /// <summary>
     /// <para>
@@ -36,7 +36,7 @@
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="GetKeyIdentifier"></typeparam>
-    public interface IModelService<T, TIdentifier> : IModelService<T>
+    public interface IModelService<TObject, TIdentifier> : IModelService<TObject>
     {
         /// <summary>
         /// Gets the objects from the database
@@ -46,7 +46,7 @@
         /// <returns>
         /// If the object does not exist than this method will return NULL.
         /// </returns>
-        Task<T?> GetAsync(TIdentifier identifier, IDbController dbController);
+        Task<TObject?> GetAsync(TIdentifier identifier, IDbController dbController, CancellationToken cancellationToken = default);
     }
     /// <summary>
     /// <inheritdoc />
@@ -71,14 +71,14 @@
         /// <param name="filter"></param>
         /// <param name="sqlController"></param>
         /// <returns></returns>
-        Task<List<TObject>> GetAsync(TFilter filter, IDbController dbController);
+        Task<List<TObject>> GetAsync(TFilter filter, IDbController dbController, CancellationToken cancellationToken = default);
         /// <summary>
         /// Gets the total amount of search results based on the provided filter.
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="sqlController"></param>
         /// <returns></returns>
-        Task<int> GetTotalAsync(TFilter filter, IDbController dbController);
+        Task<int> GetTotalAsync(TFilter filter, IDbController dbController, CancellationToken cancellationToken = default);
         /// <summary>
         /// Generates the conditional WHERE statement for the SQL query.
         /// </summary>

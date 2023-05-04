@@ -47,22 +47,26 @@ namespace DbController.SqlServer
         }
         #endregion
         #region SQL-Methods
-        public async Task QueryAsync(string sqlCommand, object? param = null)
+        public async Task QueryAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
-            await Command.Connection.QueryAsync(sqlCommand, param, Transaction);
-
-
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+            await Command.Connection.QueryAsync(definition);
         }
 
-        public Task<T?> GetFirstAsync<T>(string selectCommand, object? param = null)
+        public Task<T?> GetFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
-            Task<T?> result = Command.Connection.QueryFirstOrDefaultAsync<T?>(selectCommand, param, Transaction);
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+            Task<T?> result = Command.Connection.QueryFirstOrDefaultAsync<T?>(definition);
             return result;
         }
 
-        public async Task<List<T>> SelectDataAsync<T>(string selectCommand, object? param = null)
+        public async Task<List<T>> SelectDataAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
-            IEnumerable<T> enumerable = await Command.Connection.QueryAsync<T>(selectCommand, param, Transaction);
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+            IEnumerable<T> enumerable = await Command.Connection.QueryAsync<T>(definition);
             return enumerable.ToList();
         }
         #endregion
