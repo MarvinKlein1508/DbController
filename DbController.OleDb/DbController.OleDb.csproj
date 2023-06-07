@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>DbController.OleDb</Title>
+		<Authors>Marvin klein</Authors>
+		<Version>2.2.0</Version>
+		<Description>An implementation of the DbController package for OleDb connections.</Description>
+		<Copyright>2023</Copyright>
+		<PackageReadmeFile>README.MD</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>database, dbcontroller, oledb, oledbcontroller</PackageTags>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\README.MD">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Data.OleDb" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DbController\DbController.csproj" />
+	</ItemGroup>
+
+</Project>
