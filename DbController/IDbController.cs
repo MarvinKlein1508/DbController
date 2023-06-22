@@ -13,23 +13,26 @@ namespace DbController
         /// Executes SQL and returns the first specified object found.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="selectCommand"></param>
+        /// <param name="sql"></param>
         /// <param name="param"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>When no object is found, this method will return null.</returns>
         Task<T?> GetFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
         /// <summary>
         /// Executes SQL and returns all found objects within a list.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="selectCommand"></param>
+        /// <param name="sql"></param>
         /// <param name="param"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>When no objects are found, an empty list will be returned.</returns>
         Task<List<T>> SelectDataAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default);
         /// <summary>
         /// Executes SQL and does not return anything.
         /// </summary>
-        /// <param name="sqlCommand"></param>
+        /// <param name="sql"></param>
         /// <param name="param"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task QueryAsync(string sql, object? param = null, CancellationToken cancellationToken = default);
         /// <summary>
