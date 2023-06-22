@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides generalized CUD operations for an object Service.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TObject"></typeparam>
     public interface IModelService<TObject>
     {
         /// <summary>
@@ -11,6 +11,7 @@
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dbController"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task CreateAsync(TObject input, IDbController dbController, CancellationToken cancellationToken = default);
         /// <summary>
@@ -18,6 +19,7 @@
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dbController"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task UpdateAsync(TObject input, IDbController dbController, CancellationToken cancellationToken = default);
 
@@ -26,6 +28,7 @@
         /// </summary>
         /// <param name="input"></param>
         /// <param name="dbController"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task DeleteAsync(TObject input, IDbController dbController, CancellationToken cancellationToken = default);
     }
@@ -34,15 +37,16 @@
     /// Provides generalized CRUD operations for an object Service.
     /// </para>
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="GetKeyIdentifier"></typeparam>
+    /// <typeparam name="TObject"></typeparam>
+    /// <typeparam name="TIdentifier"></typeparam>
     public interface IModelService<TObject, TIdentifier> : IModelService<TObject>
     {
         /// <summary>
         /// Gets the objects from the database
         /// </summary>
         /// <param name="identifier">The unique identifer for the object.</param>
-        /// <param name="fbController"></param>
+        /// <param name="dbController"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// If the object does not exist than this method will return NULL.
         /// </returns>
@@ -52,31 +56,34 @@
     /// <inheritdoc />
     /// Expands the CRUD Operations with conditional search filters.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TObject"></typeparam>
     /// <typeparam name="TIdentifier"></typeparam>
     /// <typeparam name="TFilter"></typeparam>
-    public interface IModelService<TObject, TIdentifier, TFilter> : IModelService<TObject, TIdentifier>, IFilterOpertations<TObject, TFilter>
+    public interface IModelService<TObject, TIdentifier, TFilter> : IModelService<TObject, TIdentifier>, IFilterOperations<TObject, TFilter>
     {
         
     }
     /// <summary>
     /// Interface to provide filter methods to any service.
     /// </summary>
-    /// <typeparam name="TFilter"></typeparam>
-    public interface IFilterOpertations<TObject, TFilter>
+    /// <typeparam name="TObject"></typeparam>
+    /// <typeparam name="TFilter">A class which holds properties to specify an SQL filter.</typeparam>
+    public interface IFilterOperations<TObject, TFilter>
     {
         /// <summary>
         /// Gets data from the database based on the provided search filter.
         /// </summary>
         /// <param name="filter"></param>
-        /// <param name="sqlController"></param>
+        /// <param name="dbController"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<List<TObject>> GetAsync(TFilter filter, IDbController dbController, CancellationToken cancellationToken = default);
         /// <summary>
         /// Gets the total amount of search results based on the provided filter.
         /// </summary>
         /// <param name="filter"></param>
-        /// <param name="sqlController"></param>
+        /// <param name="dbController"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<int> GetTotalAsync(TFilter filter, IDbController dbController, CancellationToken cancellationToken = default);
         /// <summary>
@@ -89,7 +96,7 @@
         /// Gets a dictionary of parameters for the filter which can be used in Dapper-Queries.
         /// </summary>
         /// <param name="filter"></param>
-        /// <returns></returns>
+        /// <returns>A dictionary with all parameters as key value pairs to be used with Dapper.</returns>
         Dictionary<string, object?> GetFilterParameter(TFilter filter);
     }
 }
