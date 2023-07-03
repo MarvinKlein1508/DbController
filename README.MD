@@ -94,7 +94,7 @@ This will be done in the static constructor for the IDbController implementation
 static MySqlController()
 {
     // INIT Dapper for CompareField
-    foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldName))
+    foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
     {
         SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
             type,
