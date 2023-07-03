@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Xml.Linq;
 
 namespace DbController
 {
@@ -21,7 +22,7 @@ namespace DbController
 
         private Dictionary<string, PropertyInfo> InternalCache { get; set; } = new Dictionary<string, PropertyInfo>();
 
-        public void Cache<TAttribute>(Func<TAttribute, string> compareFunction) where TAttribute : Attribute
+        public void Cache<TAttribute>(Func<TAttribute, string[]> compareFunction) where TAttribute : Attribute
         {
             InternalCache.Clear();
             foreach (PropertyInfo p in Type.GetProperties())
@@ -29,11 +30,15 @@ namespace DbController
                 TAttribute? attribute = p.GetCustomAttribute<TAttribute>();
                 if (attribute is not null)
                 {
-                    string name = compareFunction(attribute);
-                    if (!InternalCache.ContainsKey(name))
+                    string[] names = compareFunction(attribute);
+                    for (int i = 0; i < names.Length; i++)
                     {
-                        InternalCache.Add(name, p);
+                        if (!InternalCache.ContainsKey(names[i]))
+                        {
+                            InternalCache.Add(names[i], p);
+                        }
                     }
+                    
                 }
             }
         }
@@ -54,7 +59,7 @@ namespace DbController
     public static class SingletonTypeAttributeCache
     {
         public static Dictionary<Type, TypeAttributeCache> InternalCache { get; } = new Dictionary<Type, TypeAttributeCache>();
-        public static void Cache<TAttribute>(Type type, Func<TAttribute, string> compareFunction) where TAttribute : Attribute
+        public static void Cache<TAttribute>(Type type, Func<TAttribute, string[]> compareFunction) where TAttribute : Attribute
         {
             if (InternalCache.ContainsKey(type))
             {
@@ -68,7 +73,7 @@ namespace DbController
             }
         }
 
-        public static List<Type> CacheAll<TAttribute>(Func<TAttribute, string> compareFunction) where TAttribute : Attribute
+        public static List<Type> CacheAll<TAttribute>(Func<TAttribute, string[]> compareFunction) where TAttribute : Attribute
         {
             List<Type> cachedTypes = new List<Type>();
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())

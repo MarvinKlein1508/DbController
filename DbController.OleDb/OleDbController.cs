@@ -36,7 +36,7 @@ namespace DbController.OleDb
         static OleDbController()
         {
             // INIT Dapper for CompareField
-            foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldName))
+            foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
             {
                 SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
                     type,
