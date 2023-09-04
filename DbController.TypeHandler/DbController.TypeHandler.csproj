@@ -9,7 +9,7 @@
 		<Title>DbController.TypeHandler</Title>
 		<Description>Provides type converters for dapper queries.</Description>
 		<Copyright>2023</Copyright>
-		<Version>2.4.0</Version>
+		<Version>2.5.0</Version>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dapper" Version="2.0.143" />
+		<PackageReference Include="Dapper" Version="2.0.151" />
 	</ItemGroup>
 
 </Project>
