@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Xml.Linq;
 
 namespace DbController
 {
@@ -14,6 +13,13 @@ namespace DbController
     /// </summary>
     public class TypeAttributeCache
     {
+        /// <summary>
+        /// When set to true, the static constructor of <see cref="IDbController"/> implementations should skip the registration of the type cache.
+        /// <para>
+        /// This should be set to true after the initialization of the static constructor or when the type cache is being initialized outside of the implementations e.g. on application startup.
+        /// </para>
+        /// </summary>
+        public static bool CacheIsInitialized = false;
         private Type Type { get; set; }
         public TypeAttributeCache(Type type)
         {

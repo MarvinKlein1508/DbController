@@ -93,19 +93,24 @@ This will be done in the static constructor for the IDbController implementation
 /// </summary>
 static MySqlController()
 {
-    // INIT Dapper for CompareField
-    foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
+    if (!TypeAttributeCache.CacheIsInitialized)
     {
-        SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
-            type,
-            (type, columnName) =>
-            {
-                PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
+        // INIT Dapper for CompareField
+        foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
+        {
+            SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
+                type,
+                (type, columnName) =>
+                {
+                    PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
 
-                return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) : prop;
+                    return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) : prop;
 
-            }
-        ));
+                }
+            ));
+        }
+
+        TypeAttributeCache.CacheIsInitialized = true;
     }
 }
 ```
