@@ -84,7 +84,18 @@ namespace DbController
             List<Type> cachedTypes = new List<Type>();
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                foreach (Type type in assembly.GetTypes())
+                var types = Array.Empty<Type>();
+
+                try
+                {
+                    types = assembly.GetTypes();
+                }
+                catch (Exception)
+                {
+                    // This can fail when loading dynamic types of certain DLL. In .NET 8 SqlClient will fail.
+                }
+
+                foreach (Type type in types)
                 {
                     Cache(type, compareFunction);
                     cachedTypes.Add(type);
