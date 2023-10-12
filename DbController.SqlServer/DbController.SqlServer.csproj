@@ -9,7 +9,7 @@
 		<Title>DbController.SqlServer</Title>
 		<Description>An implementation of the DbController package for SqlServer.</Description>
 		<Copyright>2023</Copyright>
-		<Version>2.6.0</Version>
+		<Version>2.7.0</Version>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>sqlserver, mssql, database, dbcontroller</PackageTags>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
@@ -25,7 +25,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>

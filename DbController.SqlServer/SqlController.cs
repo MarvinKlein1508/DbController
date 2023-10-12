@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using System.Data.SqlClient;
 using System.Reflection;
+using Microsoft.Data.SqlClient;
 
 namespace DbController.SqlServer
 {
