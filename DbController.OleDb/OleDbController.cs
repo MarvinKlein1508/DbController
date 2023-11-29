@@ -50,132 +50,132 @@ namespace DbController.OleDb
                 ));
             }
         }
-    }
-    #endregion
-    #region SQL-Methods
-    public async Task QueryAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
-        await Command.Connection.QueryAsync(definition);
-    }
-    public Task<T?> GetFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
-        Task<T?> result = Command.Connection.QueryFirstOrDefaultAsync<T?>(definition);
-        return result;
-    }
-    public async Task<List<T>> SelectDataAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
-        IEnumerable<T> enumerable = await Command.Connection.QueryAsync<T>(definition);
-        return enumerable.ToList();
-    }
-    #endregion
-    #region Transaction
-    /// <summary>
-    /// Not Implemented
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public async Task CommitChangesAsync()
-    {
-        try
-        {
-            await Command.Transaction.CommitAsync();
-        }
-        catch (Exception)
-        {
 
-            throw;
-        }
-        finally
+        #endregion
+        #region SQL-Methods
+        public async Task QueryAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
-            Command.Transaction?.Dispose();
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+            await Command.Connection.QueryAsync(definition);
         }
-    }
-    /// <summary>
-    /// Not Implemented
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public async Task RollbackChangesAsync()
-    {
-        try
+        public Task<T?> GetFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
-            await Command.Transaction.RollbackAsync();
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+            Task<T?> result = Command.Connection.QueryFirstOrDefaultAsync<T?>(definition);
+            return result;
         }
-        catch (Exception)
+        public async Task<List<T>> SelectDataAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
-
-            throw;
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+            IEnumerable<T> enumerable = await Command.Connection.QueryAsync<T>(definition);
+            return enumerable.ToList();
         }
-    }
-    /// <summary>
-    /// Not Implemented
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public async Task StartTransactionAsync()
-    {
-        if (Command.Transaction is not null)
+        #endregion
+        #region Transaction
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task CommitChangesAsync()
         {
-            throw new InvalidOperationException($"Es konnte keine Transaction gestartet werden, da bereits eine Transaction läuft");
-        }
-
-        Command.Transaction = (OleDbTransaction)await Connection.BeginTransactionAsync();
-    }
-    #endregion
-    #region IDisposable
-    private void Dispose(bool disposing)
-    {
-        if (!_disposedValue)
-        {
-            if (disposing)
+            try
             {
-                // Dispose closes the connection automatically
-                Connection.Dispose();
-                Command.Dispose();
+                await Command.Transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                Command.Transaction?.Dispose();
+            }
+        }
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task RollbackChangesAsync()
+        {
+            try
+            {
+                await Command.Transaction.RollbackAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task StartTransactionAsync()
+        {
+            if (Command.Transaction is not null)
+            {
+                throw new InvalidOperationException($"Es konnte keine Transaction gestartet werden, da bereits eine Transaction läuft");
             }
 
-            _disposedValue = true;
+            Command.Transaction = (OleDbTransaction)await Connection.BeginTransactionAsync();
+        }
+        #endregion
+        #region IDisposable
+        private void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose closes the connection automatically
+                    Connection.Dispose();
+                    Command.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        ~OleDbController()
+        {
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
+
+
+
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public string GetLastIdSql()
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public string GetPaginationSyntax(int pageNumber, int limit)
+        {
+            throw new NotImplementedException();
         }
     }
-
-    ~OleDbController()
-    {
-        Dispose(disposing: false);
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
-    #endregion
-
-
-
-    /// <summary>
-    /// Not Implemented
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public string GetLastIdSql()
-    {
-        throw new NotImplementedException();
-    }
-    /// <summary>
-    /// Not Implemented
-    /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public string GetPaginationSyntax(int pageNumber, int limit)
-    {
-        throw new NotImplementedException();
-    }
-}
 }
