@@ -13,20 +13,13 @@ namespace DbController
     /// </summary>
     public class TypeAttributeCache
     {
-        /// <summary>
-        /// When set to true, the static constructor of <see cref="IDbController"/> implementations should skip the registration of the type cache.
-        /// <para>
-        /// This should be set to true after the initialization of the static constructor or when the type cache is being initialized outside of the implementations e.g. on application startup.
-        /// </para>
-        /// </summary>
-        public static bool CacheIsInitialized = false;
         private Type Type { get; set; }
         public TypeAttributeCache(Type type)
         {
             Type = type;
         }
 
-        private Dictionary<string, PropertyInfo> InternalCache { get; set; } = new Dictionary<string, PropertyInfo>();
+        private Dictionary<string, PropertyInfo> InternalCache { get; set; } = [];
 
         public void Cache<TAttribute>(Func<TAttribute, string[]> compareFunction) where TAttribute : Attribute
         {
@@ -39,10 +32,7 @@ namespace DbController
                     string[] names = compareFunction(attribute);
                     for (int i = 0; i < names.Length; i++)
                     {
-                        if (!InternalCache.ContainsKey(names[i]))
-                        {
-                            InternalCache.Add(names[i], p);
-                        }
+                        InternalCache.TryAdd(names[i], p);
                     }
                     
                 }
@@ -51,9 +41,9 @@ namespace DbController
 
         public PropertyInfo? Get(string name)
         {
-            if (InternalCache.ContainsKey(name))
+            if (InternalCache.TryGetValue(name, out PropertyInfo? value))
             {
-                return InternalCache[name];
+                return value;
             }
             else
             {
@@ -61,27 +51,40 @@ namespace DbController
             }
         }
     }
-
+    /// <summary>
+    /// Provides caching functiojnaltiy for remapped properties to be bound within dapper queries.
+    /// </summary>
     public static class SingletonTypeAttributeCache
     {
-        public static Dictionary<Type, TypeAttributeCache> InternalCache { get; } = new Dictionary<Type, TypeAttributeCache>();
+        public static Dictionary<Type, TypeAttributeCache> InternalCache { get; } = [];
+        /// <summary>
+        /// Caches a specific type
+        /// </summary>
+        /// <typeparam name="TAttribute"></typeparam>
+        /// <param name="type"></param>
+        /// <param name="compareFunction"></param>
         public static void Cache<TAttribute>(Type type, Func<TAttribute, string[]> compareFunction) where TAttribute : Attribute
         {
-            if (InternalCache.ContainsKey(type))
+            if (InternalCache.TryGetValue(type, out TypeAttributeCache? value))
             {
-                InternalCache[type].Cache(compareFunction);
+                value.Cache(compareFunction);
             }
             else
             {
-                TypeAttributeCache cache = new TypeAttributeCache(type);
+                TypeAttributeCache cache = new(type);
                 cache.Cache(compareFunction);
                 InternalCache.Add(type, cache);
             }
         }
-
+        /// <summary>
+        /// Caches all properties of the current assembly for dapper mapping operations.
+        /// </summary>
+        /// <typeparam name="TAttribute"></typeparam>
+        /// <param name="compareFunction"></param>
+        /// <returns></returns>
         public static List<Type> CacheAll<TAttribute>(Func<TAttribute, string[]> compareFunction) where TAttribute : Attribute
         {
-            List<Type> cachedTypes = new List<Type>();
+            List<Type> cachedTypes = [];
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 var types = Array.Empty<Type>();
@@ -103,12 +106,17 @@ namespace DbController
             }
             return cachedTypes;
         }
-
+        /// <summary>
+        /// Gets the property info for a given name
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public static PropertyInfo? Get(Type type, string name)
         {
-            if (InternalCache.ContainsKey(type))
+            if (InternalCache.TryGetValue(type, out TypeAttributeCache? value))
             {
-                return InternalCache[type].Get(name);
+                return value.Get(name);
             }
             else
             {
