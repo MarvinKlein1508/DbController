@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data;
 using System.Data.OleDb;
 using System.Reflection;
 using System.Runtime.Versioning;
@@ -53,12 +54,14 @@ namespace DbController.OleDb
 
         #endregion
         #region SQL-Methods
+        /// <inheritdoc />
         public async Task QueryAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
             await Command.Connection.QueryAsync(definition);
         }
+        /// <inheritdoc />
         public Task<T?> GetFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -66,6 +69,7 @@ namespace DbController.OleDb
             Task<T?> result = Command.Connection.QueryFirstOrDefaultAsync<T?>(definition);
             return result;
         }
+        /// <inheritdoc />
         public async Task<List<T>> SelectDataAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -73,13 +77,17 @@ namespace DbController.OleDb
             IEnumerable<T> enumerable = await Command.Connection.QueryAsync<T>(definition);
             return enumerable.ToList();
         }
+        /// <inheritdoc />
+        public async Task<DynamicParameters?> ExecuteProcedureAsync(string procedureName, DynamicParameters? param = null, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(procedureName, param, Transaction, cancellationToken: cancellationToken, commandType: CommandType.StoredProcedure);
+            await Command.Connection.ExecuteAsync(definition);
+            return param;
+        }
         #endregion
         #region Transaction
-        /// <summary>
-        /// Not Implemented
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <inheritdoc />
         public async Task CommitChangesAsync()
         {
             try
@@ -96,11 +104,7 @@ namespace DbController.OleDb
                 Command.Transaction?.Dispose();
             }
         }
-        /// <summary>
-        /// Not Implemented
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <inheritdoc />
         public async Task RollbackChangesAsync()
         {
             try
@@ -113,11 +117,7 @@ namespace DbController.OleDb
                 throw;
             }
         }
-        /// <summary>
-        /// Not Implemented
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <inheritdoc />
         public async Task StartTransactionAsync()
         {
             if (Command.Transaction is not null)
@@ -177,5 +177,7 @@ namespace DbController.OleDb
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

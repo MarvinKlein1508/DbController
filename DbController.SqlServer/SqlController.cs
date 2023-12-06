@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using System.Reflection;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace DbController.SqlServer
 {
@@ -46,13 +47,14 @@ namespace DbController.SqlServer
         }
         #endregion
         #region SQL-Methods
+        /// <inheritdoc />
         public async Task QueryAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
             await Command.Connection.QueryAsync(definition);
         }
-
+        /// <inheritdoc />
         public Task<T?> GetFirstAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -60,13 +62,21 @@ namespace DbController.SqlServer
             Task<T?> result = Command.Connection.QueryFirstOrDefaultAsync<T?>(definition);
             return result;
         }
-
+        /// <inheritdoc />
         public async Task<List<T>> SelectDataAsync<T>(string sql, object? param = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
             IEnumerable<T> enumerable = await Command.Connection.QueryAsync<T>(definition);
             return enumerable.ToList();
+        }
+        /// <inheritdoc />
+        public async Task<DynamicParameters?> ExecuteProcedureAsync(string procedureName, DynamicParameters? param = null, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            CommandDefinition definition = new CommandDefinition(procedureName, param, Transaction, cancellationToken: cancellationToken, commandType: CommandType.StoredProcedure);
+            await Command.Connection.ExecuteAsync(definition);
+            return param;
         }
         #endregion
         #region Transaction
@@ -147,15 +157,16 @@ namespace DbController.SqlServer
 
 
         #endregion
-
+        /// <inheritdoc />
         public string GetLastIdSql()
         {
             return "SELECT SCOPE_IDENTITY();";
         }
-
+        /// <inheritdoc />
         public string GetPaginationSyntax(int pageNumber, int limit)
         {
             return $" OFFSET {(pageNumber - 1) * limit} ROWS FETCH NEXT {limit} ROWS ONLY";
         }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Dapper;
+using System.Data;
 
 namespace DbController
 {
@@ -50,6 +51,15 @@ namespace DbController
         /// </summary>
         /// <returns></returns>
         Task RollbackChangesAsync();
+        /// <summary>
+        /// Executes the provided procedure.
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="param"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<DynamicParameters?> ExecuteProcedureAsync(string procedureName, DynamicParameters? param = null, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Gets the syntax to return the last inserted ID.
         /// </summary>
