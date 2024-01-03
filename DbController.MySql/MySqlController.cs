@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System.Data;
 using System.Reflection;
 using System.Threading;
