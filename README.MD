@@ -21,7 +21,7 @@ connection.Dispose();
 
 With this package this code can be reduced to:
 ```csharp
-using MySqlController dbController = new MySqlController("YOUR_CONNECTION_STRING");
+using MySqlController dbController = await MySqlController.CreateAsync("YOUR_CONNECTION_STRING");
 List<Customer> customer = await dbController.SelectDataAsync<Customer>("SELECT * FROM customers");
 ```
 
@@ -57,17 +57,17 @@ Start by creating an instance of the DbController based on the package you want 
 
 When using the `DbController.MySql` package a new controller can be created like this:
 ``` csharp
-using MySqlController dbController = new MySqlController("YOUR_CONNECTION_STRING");
+using MySqlController dbController = await MySqlController.CreateAsync("YOUR_CONNECTION_STRING");
 ``` 
 
 For the `DbController.SqlServer` package:
 ``` csharp
-using SqlController dbController = new SqlController("YOUR_CONNECTION_STRING");
+using SqlController dbController = await SqlController.CreateAsync("YOUR_CONNECTION_STRING");
 ``` 
 
 You can also use the interface to change the used DbController at runtime with dependency injection.
 ``` csharp
-using IDbController dbController = new MySqlController("YOUR_CONNECTION_STRING");
+using IDbController dbController = await MySqlController.CreateAsync("YOUR_CONNECTION_STRING");
 ``` 
 
 `DbController` is using [Dapper](https://github.com/DapperLib/Dapper) under the hood for object mapping. 
@@ -130,7 +130,7 @@ It's generally recommended to pass an instance of IDbController to each function
 ```csharp
 public static async Task Main(string[] args)
 {
-    using IDbController dbController = new MySqlController("YOUR_CONNECTIONSTRING");
+    using IDbController dbController = await MySqlController.CreateAsync("YOUR_CONNECTIONSTRING");
 
     List<Customer> customers = await GetCustomers(dbController);
     List<Employee> employees = await GetEmployees(dbController);
