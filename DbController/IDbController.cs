@@ -8,8 +8,6 @@ namespace DbController
     /// </summary>
     public interface IDbController : IDisposable
     {
-        string CommandText { get; }
-        string ConnectionString { get; }
         /// <summary>
         /// Executes SQL and returns the first specified object found.
         /// </summary>
@@ -73,10 +71,9 @@ namespace DbController
         /// <returns></returns>
         string GetPaginationSyntax(int pageNumber, int limit);
     }
-    public interface IDbController<TConnection, TCommand, TTransaction> : IDbController where TConnection : IDbConnection where TCommand : IDbCommand where TTransaction : IDbTransaction
+    public interface IDbController<TConnection, TTransaction> : IDbController where TConnection : IDbConnection where TTransaction : IDbTransaction
     {
-        TConnection Connection { get; }
+        TConnection Connection { get; init; }
         TTransaction? Transaction { get; }
-        TCommand Command { get; }
     }
 }
