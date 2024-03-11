@@ -8,8 +8,8 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>DbController.SqlServer</Title>
 		<Description>An implementation of the DbController package for SqlServer.</Description>
-		<Copyright>2023</Copyright>
-		<Version>3.6.0</Version>
+		<Copyright>2023-2024</Copyright>
+		<Version>3.7.0</Version>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>sqlserver, mssql, database, dbcontroller</PackageTags>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>

@@ -8,10 +8,10 @@
 		<Title>DbController</Title>
 		<Authors>Marvin Klein</Authors>
 		<Description>Base interface for creating a DbController.</Description>
-		<Copyright>2023</Copyright>
+		<Copyright>2023-2024</Copyright>
 		<PackageTags>dbcontroller, database, mysql, sqlserver</PackageTags>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>
-		<Version>3.6.0</Version>
+		<Version>3.7.0</Version>
 		<RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
