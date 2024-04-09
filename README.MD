@@ -118,6 +118,7 @@ Every IDbController provides the following methods to work with:
 |QueryAsync|Executes SQL|---
 |GetFirstAsync\<T\>|Executes SQL and returns maps the result to the corresponding object|Returns an instance of the object, null when no row is found
 |SelectDataAsync\<T\>|Executes SQL and maps all results into a list|If no object is found it will return an empty list
+|ExecuteReaderAsync|Executes SQL and allows to process each row individually
 |StartTransactionAsync|Starts a new transaction|Nothing will be returned
 |CommitChangesAsync|Commits and writes all data from the current transaction|---
 |RollbackChangesAsync|Rolls back all changes from the current transaction|---
