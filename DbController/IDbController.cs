@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System.Data;
+using System.Data.Common;
 
 namespace DbController
 {
@@ -57,6 +58,15 @@ namespace DbController
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<DynamicParameters?> ExecuteProcedureAsync(string procedureName, DynamicParameters? param = null, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Executes the provided SQL-Statement and returns a <see cref="DbDataReader"/> to process each row individually.
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="param"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<DbDataReader> ExecuteReaderAsync(string sql, object? param = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the syntax to return the last inserted ID.

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using FirebirdSql.Data.FirebirdClient;
 using System.Data;
+using System.Data.Common;
 using System.Reflection;
 
 namespace DbController.Firebird;
@@ -80,6 +81,14 @@ public sealed class FbController : IDisposable, IDbController<FbConnection, FbTr
         CommandDefinition definition = new CommandDefinition(procedureName, param, Transaction, cancellationToken: cancellationToken, commandType: CommandType.StoredProcedure);
         await Connection.ExecuteAsync(definition);
         return param;
+    }
+
+    /// <inheritdoc />
+    public Task<DbDataReader> ExecuteReaderAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+        return Connection.ExecuteReaderAsync(definition);
     }
     #endregion
     #region Transaction

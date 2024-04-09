@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System.Data;
+using System.Data.Common;
 using System.Data.OleDb;
 using System.Reflection;
 using System.Runtime.Versioning;
@@ -82,6 +83,14 @@ public class OleDbController : IDbController<OleDbConnection, OleDbTransaction>
         CommandDefinition definition = new CommandDefinition(procedureName, param, Transaction, cancellationToken: cancellationToken, commandType: CommandType.StoredProcedure);
         await Connection.ExecuteAsync(definition);
         return param;
+    }
+
+    /// <inheritdoc />
+    public Task<DbDataReader> ExecuteReaderAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+        return Connection.ExecuteReaderAsync(definition);
     }
     #endregion
     #region Transaction

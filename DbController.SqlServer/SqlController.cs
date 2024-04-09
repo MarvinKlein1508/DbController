@@ -81,7 +81,7 @@ public sealed class SqlController : IDisposable, IDbController<SqlConnection, Sq
         await Connection.ExecuteAsync(definition);
         return param;
     }
-
+    /// <inheritdoc />
     public Task<DbDataReader> ExecuteReaderAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
