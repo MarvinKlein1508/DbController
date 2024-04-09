@@ -73,7 +73,7 @@ namespace DbController
     }
     public interface IDbController<TConnection, TTransaction> : IDbController where TConnection : IDbConnection where TTransaction : IDbTransaction
     {
-        TConnection Connection { get; init; }
+        TConnection Connection { get; }
         TTransaction? Transaction { get; }
     }
 

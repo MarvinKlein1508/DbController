@@ -2,6 +2,7 @@
 using System.Reflection;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Data.Common;
 
 namespace DbController.SqlServer;
 
@@ -12,7 +13,7 @@ public sealed class SqlController : IDisposable, IDbController<SqlConnection, Sq
 {
     private bool _disposedValue;
     /// <inheritdoc />
-    public required SqlConnection Connection { get; init; }
+    public SqlConnection Connection { get; }
     /// <inheritdoc />
     public SqlTransaction? Transaction { get; private set; }
 
@@ -79,6 +80,13 @@ public sealed class SqlController : IDisposable, IDbController<SqlConnection, Sq
         CommandDefinition definition = new CommandDefinition(procedureName, param, Transaction, cancellationToken: cancellationToken, commandType: CommandType.StoredProcedure);
         await Connection.ExecuteAsync(definition);
         return param;
+    }
+
+    public Task<DbDataReader> ExecuteReaderAsync(string sql, object? param = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        CommandDefinition definition = new CommandDefinition(sql, param, Transaction, cancellationToken: cancellationToken);
+        return Connection.ExecuteReaderAsync(definition);
     }
     #endregion
     #region Transaction

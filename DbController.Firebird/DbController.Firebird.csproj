@@ -9,7 +9,7 @@
 	  <Title>DbController.Firebird</Title>
 	  <Description>An implementation of the DbController package for Firebird.</Description>
 	  <Copyright>2023-2024</Copyright>
-	  <Version>3.7.0</Version>
+	  <Version>3.9.0</Version>
 	  <PackageReadmeFile>README.MD</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/MarvinKlein1508/DbController</RepositoryUrl>
 	  <RepositoryType>git</RepositoryType>

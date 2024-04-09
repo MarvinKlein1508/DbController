@@ -14,7 +14,7 @@ public class OleDbController : IDbController<OleDbConnection, OleDbTransaction>
 {
     private bool _disposedValue;
     /// <inheritdoc />
-    public required OleDbConnection Connection { get; init; }
+    public OleDbConnection Connection { get; }
     /// <inheritdoc />
     public OleDbTransaction? Transaction { get; private set; }
 

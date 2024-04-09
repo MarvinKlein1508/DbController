@@ -12,7 +12,7 @@ public sealed class FbController : IDisposable, IDbController<FbConnection, FbTr
 {
     private bool _disposedValue;
     /// <inheritdoc />
-    public required FbConnection Connection { get; init; }
+    public FbConnection Connection { get; }
     /// <inheritdoc />
     public FbTransaction? Transaction { get; private set; }
 

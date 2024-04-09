@@ -12,7 +12,7 @@ public sealed class MySqlController : IDisposable, IDbController<MySqlConnection
 {
     private bool _disposedValue;
     /// <inheritdoc />
-    public required MySqlConnection Connection { get; init; }
+    public MySqlConnection Connection { get; }
     /// <inheritdoc />
     public MySqlTransaction? Transaction { get; private set; }
 
