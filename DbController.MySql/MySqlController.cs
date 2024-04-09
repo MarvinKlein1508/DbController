@@ -21,30 +21,10 @@ public sealed class MySqlController : IDisposable, IDbController<MySqlConnection
     /// Creates a new <see cref="MySqlController"/> with the given ConnectionString and opens the connection.
     /// </summary>
     /// <param name="connectionString"></param>
-    [Obsolete("This method should no longer be used. It will be removed in a future version. Please use MySqlController.CreateAsync instead.")]
     public MySqlController(string connectionString)
     {
         Connection = new MySqlConnection(connectionString);
         Connection.Open();
-    }
-
-    private MySqlController()
-    {
-        
-    }
-    /// <summary>
-    /// Creates a new <see cref="MySqlController"/> with the given ConnectionString and opens the connection asynchronously.
-    /// </summary>
-    /// <param name="connectionString"></param>
-    public static async Task<MySqlController> CreateAsync(string connectionString)
-    {
-        var controller = new MySqlController()
-        {
-            Connection = new MySqlConnection(connectionString)
-        };
-
-        await controller.Connection.OpenAsync();
-        return controller;
     }
 
     /// <summary>

@@ -76,4 +76,5 @@ namespace DbController
         TConnection Connection { get; init; }
         TTransaction? Transaction { get; }
     }
+
 }

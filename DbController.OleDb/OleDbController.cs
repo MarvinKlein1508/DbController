@@ -23,33 +23,11 @@ public class OleDbController : IDbController<OleDbConnection, OleDbTransaction>
     /// Creates a new <see cref="OleDbController"/> with the given ConnectionString and opens the connection.
     /// </summary>
     /// <param name="connectionString"></param>
-    [Obsolete("This method should no longer be used. It will be removed in a future version. Please use OleDbController.CreateAsync instead.")]
     public OleDbController(string connectionString)
     {
         Connection = new OleDbConnection(connectionString);
         Connection.Open();
     }
-
-    private OleDbController() 
-    { 
-
-    }
-
-    /// <summary>
-    /// Creates a new <see cref="OleDbController"/> with the given ConnectionString and opens the connection asynchronously.
-    /// </summary>
-    /// <param name="connectionString"></param>
-    public static async Task<OleDbController> CreateAsync(string connectionString)
-    {
-        var controller = new OleDbController()
-        {
-            Connection = new OleDbConnection(connectionString)
-        };
-
-        await controller.Connection.OpenAsync();
-        return controller;
-    }
-
 
     /// <summary>
     /// Static constructor to initialize the TypeAttributeCache

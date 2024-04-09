@@ -17,23 +17,14 @@ public sealed class FbController : IDisposable, IDbController<FbConnection, FbTr
     public FbTransaction? Transaction { get; private set; }
 
     #region Constructors
-    private FbController()
-    {
-        
-    }
     /// <summary>
-    /// Creates a new <see cref="FbController"/> with the given ConnectionString and opens the connection asynchronously.
+    /// Creates a new <see cref="FbController"/> with the given ConnectionString and opens the connection.
     /// </summary>
     /// <param name="connectionString"></param>
-    public static async Task<FbController> CreateAsync(string connectionString)
+    public FbController(string connectionString)
     {
-        var controller = new FbController()
-        {
-            Connection = new FbConnection(connectionString)
-        };
-
-        await controller.Connection.OpenAsync();
-        return controller;
+        Connection = new FbConnection(connectionString);
+        Connection.Open();
     }
 
     /// <summary>
