@@ -11,40 +11,25 @@
         TIdentifier GetIdentifier();
     }
 
-
     /// <summary>
-    /// Defines a databse model which can be indexed by an unique <see cref="Id"/>
-    /// </summary>
-    [Obsolete("This interface is deprecated and should no longer be used. Use IDbModel<TIdentifier> instead.")]
-    public interface IDbModel : IDbParameterizable
-    {
-        /// <summary>
-        /// Gets the unique database identifier for the object.
-        /// </summary>
-        int Id { get; }
-        
-    }
-
-    /// <summary>
-    /// Extends the <see cref="IDbModel"/> interface with a property for a name.
+    /// Extends the <see cref="IDbModel{TIdentifier}"/> interface with a method for a name.
     /// <para>
     /// This interface should only be used when you don't plan on using localization for your database objects.
     /// </para>
     /// </summary>
-    [Obsolete("This interface is deprecated and should no longer be used. Use IDbModel<TIdentifier> instead.")]
-    public interface IDbModelWithName : IDbModel
+    public interface IDbModelWithName<TIdentifier> : IDbModel<TIdentifier>
     {
         /// <summary>
-        /// Gets or sets the Name of the object.
+        /// Gets the display name for the object
         /// </summary>
-        string Name { get; set; }
+        /// <returns></returns>
+        public string GetName();
     }
 
     /// <summary>
     /// Defines a database model which supports one or more localizable properties.
     /// </summary>
-    [Obsolete("This interface is deprecated and should no longer be used. Use IDbModel<TIdentifier> instead.")]
-    public interface ILocalizedDbModel : IDbModel
+    public interface ILocalizedDbModel<TIdentifier> : IDbModel<TIdentifier>
     {
         /// <summary>
         /// Returns an <see cref="Dictionary{TKey, TValue}"/> of parameters for each available localization.
