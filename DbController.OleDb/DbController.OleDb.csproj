@@ -7,7 +7,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>DbController.OleDb</Title>
 		<Authors>Marvin klein</Authors>
-		<Version>4.1.0</Version>
+		<Version>5.0.0</Version>
 		<Description>An implementation of the DbController package for OleDb connections.</Description>
 		<Copyright>2023-2024</Copyright>
 		<PackageReadmeFile>README.MD</PackageReadmeFile>

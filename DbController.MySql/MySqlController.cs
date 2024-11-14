@@ -2,14 +2,13 @@
 using MySqlConnector;
 using System.Data;
 using System.Data.Common;
-using System.Reflection;
 
 namespace DbController.MySql;
 
 /// <summary>
 /// Database wrapper for MySql connections.
 /// </summary>
-public sealed class MySqlController : IDisposable, IDbController<MySqlConnection, MySqlTransaction>
+public sealed class MySqlController : DbControllerBase, IDisposable, IDbController<MySqlConnection, MySqlTransaction>
 {
     private bool _disposedValue;
     /// <inheritdoc />
@@ -22,31 +21,12 @@ public sealed class MySqlController : IDisposable, IDbController<MySqlConnection
     /// Creates a new <see cref="MySqlController"/> with the given ConnectionString and opens the connection.
     /// </summary>
     /// <param name="connectionString"></param>
-    public MySqlController(string connectionString)
+    public MySqlController(string? connectionString = null)
     {
+        connectionString ??= _connectionString;
+
         Connection = new MySqlConnection(connectionString);
         Connection.Open();
-    }
-
-    /// <summary>
-    /// Static constructor to initialize the TypeAttributeCache
-    /// </summary>
-    static MySqlController()
-    {
-        // INIT Dapper for CompareField
-        foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
-        {
-            SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
-                type,
-                (type, columnName) =>
-                {
-                    PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
-
-                    return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)! : prop;
-
-                }
-            ));
-        }
     }
 
     #endregion
@@ -125,7 +105,7 @@ public sealed class MySqlController : IDisposable, IDbController<MySqlConnection
         finally
         {
             Transaction?.Dispose();
-            Transaction = null; 
+            Transaction = null;
         }
     }
     public async Task RollbackChangesAsync()

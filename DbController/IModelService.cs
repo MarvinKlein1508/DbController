@@ -92,7 +92,7 @@
         /// If the object does not exist than this method will return NULL.
         /// </returns>
         Task<TObject?> GetAsync(TIdentifier identifier, IDbController dbController, CancellationToken cancellationToken = default);
-    }     
+    }
     /// <summary>
     /// Interface to provide filter methods to any service.
     /// </summary>

@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using System.Reflection;
 using Microsoft.Data.SqlClient;
 using System.Data;
 using System.Data.Common;
@@ -9,7 +8,7 @@ namespace DbController.SqlServer;
 /// <summary>
 /// Database wrapper for SqlServer connections.
 /// </summary>
-public sealed class SqlController : IDisposable, IDbController<SqlConnection, SqlTransaction>
+public sealed class SqlController : DbControllerBase, IDisposable, IDbController<SqlConnection, SqlTransaction>
 {
     private bool _disposedValue;
     /// <inheritdoc />
@@ -22,31 +21,15 @@ public sealed class SqlController : IDisposable, IDbController<SqlConnection, Sq
     /// Creates a new <see cref="SqlController"/> with the given ConnectionString and opens the connection.
     /// </summary>
     /// <param name="connectionString"></param>
-    public SqlController(string connectionString)
+    public SqlController(string? connectionString = null)
     {
+        if (connectionString is null)
+        {
+            connectionString = _connectionString;
+        }
+
         Connection = new SqlConnection(connectionString);
         Connection.Open();
-    }
-
-    /// <summary>
-    /// Static constructor to initialize the TypeAttributeCache
-    /// </summary>
-    static SqlController()
-    {
-        // INIT Dapper for CompareField
-        foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
-        {
-            SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
-                type,
-                (type, columnName) =>
-                {
-                    PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
-
-                    return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)! : prop;
-
-                }
-            ));
-        }
     }
     #endregion
     #region SQL-Methods
@@ -178,5 +161,5 @@ public sealed class SqlController : IDisposable, IDbController<SqlConnection, Sq
     {
         return $" OFFSET {(pageNumber - 1) * limit} ROWS FETCH NEXT {limit} ROWS ONLY";
     }
-    
+
 }

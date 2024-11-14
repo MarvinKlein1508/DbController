@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
-using System.Reflection;
 using System.Runtime.Versioning;
 
 namespace DbController.OleDb;
@@ -11,7 +10,7 @@ namespace DbController.OleDb;
 /// Database wrapper for OleDb connections.
 /// </summary>
 [SupportedOSPlatform("windows")]
-public class OleDbController : IDbController<OleDbConnection, OleDbTransaction>
+public class OleDbController : DbControllerBase, IDbController<OleDbConnection, OleDbTransaction>
 {
     private bool _disposedValue;
     /// <inheritdoc />
@@ -24,31 +23,12 @@ public class OleDbController : IDbController<OleDbConnection, OleDbTransaction>
     /// Creates a new <see cref="OleDbController"/> with the given ConnectionString and opens the connection.
     /// </summary>
     /// <param name="connectionString"></param>
-    public OleDbController(string connectionString)
+    public OleDbController(string? connectionString = null)
     {
+        connectionString ??= _connectionString;
+
         Connection = new OleDbConnection(connectionString);
         Connection.Open();
-    }
-
-    /// <summary>
-    /// Static constructor to initialize the TypeAttributeCache
-    /// </summary>
-    static OleDbController()
-    {
-        // INIT Dapper for CompareField
-        foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
-        {
-            SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
-                type,
-                (type, columnName) =>
-                {
-                    PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
-
-                    return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)! : prop;
-
-                }
-            ));
-        }
     }
 
     #endregion

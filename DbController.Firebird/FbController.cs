@@ -2,14 +2,13 @@
 using FirebirdSql.Data.FirebirdClient;
 using System.Data;
 using System.Data.Common;
-using System.Reflection;
 
 namespace DbController.Firebird;
 
 /// <summary>
 /// Database wrapper for MySql connections.
 /// </summary>
-public sealed class FbController : IDisposable, IDbController<FbConnection, FbTransaction>
+public sealed class FbController : DbControllerBase, IDisposable, IDbController<FbConnection, FbTransaction>
 {
     private bool _disposedValue;
     /// <inheritdoc />
@@ -22,31 +21,12 @@ public sealed class FbController : IDisposable, IDbController<FbConnection, FbTr
     /// Creates a new <see cref="FbController"/> with the given ConnectionString and opens the connection.
     /// </summary>
     /// <param name="connectionString"></param>
-    public FbController(string connectionString)
+    public FbController(string? connectionString = null)
     {
+        connectionString ??= _connectionString;
+
         Connection = new FbConnection(connectionString);
         Connection.Open();
-    }
-
-    /// <summary>
-    /// Static constructor to initialize the TypeAttributeCache
-    /// </summary>
-    static FbController()
-    {
-        // INIT Dapper for CompareField
-        foreach (Type type in SingletonTypeAttributeCache.CacheAll<CompareFieldAttribute>((att) => att.FieldNames))
-        {
-            SqlMapper.SetTypeMap(type, new CustomPropertyTypeMap(
-                type,
-                (type, columnName) =>
-                {
-                    PropertyInfo? prop = SingletonTypeAttributeCache.Get(type, columnName);
-
-                    return prop is null ? type.GetProperty(columnName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance)! : prop;
-
-                }
-            ));
-        }
     }
 
     #endregion
@@ -125,7 +105,7 @@ public sealed class FbController : IDisposable, IDbController<FbConnection, FbTr
         finally
         {
             Transaction?.Dispose();
-            Transaction = null; 
+            Transaction = null;
         }
     }
     public async Task RollbackChangesAsync()

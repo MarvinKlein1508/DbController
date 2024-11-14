@@ -6,7 +6,7 @@
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class CompareFieldAttribute : Attribute
     {
-        
+
         /// <summary>
         /// Gets the corresponding field name of the database column.
         /// </summary>
